@@ -1,0 +1,5 @@
+package prashanth.poc.movieinfoservice.controller;
+
+public class MovieDetailsController {
+
+}

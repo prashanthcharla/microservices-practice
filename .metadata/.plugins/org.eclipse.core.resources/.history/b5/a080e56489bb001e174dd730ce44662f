@@ -1,0 +1,5 @@
+package prashanth.poc.movieinfoservice.dataModel;
+
+public class Movie {
+
+}
