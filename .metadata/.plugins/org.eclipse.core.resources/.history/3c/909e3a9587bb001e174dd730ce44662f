@@ -1,0 +1,5 @@
+package prashanth.poc.moviecatalogservice.dataModel;
+
+public class CatalogItem {
+
+}

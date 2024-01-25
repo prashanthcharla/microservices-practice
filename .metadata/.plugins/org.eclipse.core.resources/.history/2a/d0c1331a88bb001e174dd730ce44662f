@@ -1,0 +1,17 @@
+package prashanth.poc.moviecatalogservice.controller;
+
+import java.util.Collections;
+import java.util.List;
+
+import org.springframework.web.bind.annotation.RestController;
+
+import prashanth.poc.moviecatalogservice.dataModel.CatalogItem;
+
+@RestController
+public class MovieCatalogController {
+
+	public List<CatalogItem> getCatalog(String userId) {
+		return Collections.singletonList(new CatalogItem("Titanic", "Love Story", 4));
+	}
+
+}
