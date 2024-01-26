@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import prashanth.poc.moviecatalogservice.dataModel.CatalogItem;
 import prashanth.poc.moviecatalogservice.dataModel.Movie;
@@ -20,9 +21,12 @@ import prashanth.poc.moviecatalogservice.dataModel.Rating;
 @RestController
 @RequestMapping(value = "/catalog")
 public class MovieCatalogController {
-	
+
 	@Autowired
 	private RestTemplate restTemplate;
+
+	@Autowired
+	private WebClient.Builder webClientBuilder;
 
 	@GetMapping(value = "/{userId}")
 	public List<CatalogItem> getCatalog(@PathVariable("userId") String userId) {
@@ -41,13 +45,13 @@ public class MovieCatalogController {
 		List<String> movieIds = Arrays.asList("m1", "m2", "m3");
 
 		// 2nd step
-		Map<String, Movie> movieDetails = movieIds.stream()
-				.map(id -> restTemplate.getForObject("http://localhost:8082/movies/" + id, Movie.class))
+		Map<String, Movie> movieDetails = movieIds.stream().map(id -> webClientBuilder.build().get()
+				.uri("http://localhost:8082/movies/" + id).retrieve().bodyToMono(Movie.class).block())
 				.collect(Collectors.toMap(Movie::getMovieId, obj -> obj));
 
 		// 3rd step
-		Map<String, Rating> ratingDetails = movieIds.stream()
-				.map(id -> restTemplate.getForObject("http://localhost:8083/ratings/" + id, Rating.class))
+		Map<String, Rating> ratingDetails = movieIds.stream().map(id -> webClientBuilder.build().get()
+				.uri("http://localhost:8083/ratings/" + id).retrieve().bodyToMono(Rating.class).block())
 				.collect(Collectors.toMap(Rating::getMovieId, obj -> obj));
 
 		// Create catalog items from above details
