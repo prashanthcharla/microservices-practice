@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import prashanth.poc.ratingsdataservice.dataModel.Rating;
+import prashanth.poc.ratingsdataservice.dataModel.UserRating;
 
 @RestController
 @RequestMapping("/ratings")
@@ -20,9 +21,10 @@ public class RatingsDatController {
 	}
 
 	@GetMapping("/users/{userId}")
-	public List<Rating> getRatingsGivenByUser(@PathVariable("userId") String userId) {
+	public UserRating getRatingsGivenByUser(@PathVariable("userId") String userId) {
 		List<Rating> list = Arrays.asList(new Rating("m1", 3), new Rating("m2", 2), new Rating("m3", 5));
-		return list;
+		UserRating userRating = new UserRating(list);
+		return userRating;
 	}
 
 }
